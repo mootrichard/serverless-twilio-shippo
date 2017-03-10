@@ -41,6 +41,7 @@ By default, Serverless will create an exported function named `hello`, but we're
 // Reminder: This should be appended below the code found above
 module.exports.smsUpdates = (event, context, callback) => {
   console.log(event);
+  // Don't worry, we'll be adding more here down below
 }
 ```
 
@@ -86,6 +87,8 @@ module.exports.smsUpdates = (event, context, callback) => {
     trackingLocation = 'UNKNOWN';
   };
 
+  // This is for logging out success respponses back to Shippo
+  // We don't really need to send a body back, but it won't harm anything
 	const response = {
 	    statusCode: 200,
 	    body: JSON.stringify({
@@ -93,6 +96,8 @@ module.exports.smsUpdates = (event, context, callback) => {
 	    }),
 	  };
 
+  // You can find more info about Twilio's node client at
+  //  https://www.twilio.com/docs/libraries/node
   twilio.sendMessage({
     to: '+1-DESTINATION-NUMBER',
     from: '+1-TWILIO-NUMBER',
