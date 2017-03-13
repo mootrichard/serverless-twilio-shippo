@@ -2,8 +2,8 @@ const twilio = twilio = require('twilio')('TWILIO_ACCOUNT_SID', 'TWILIO_AUTH_TOK
 
 module.exports.smsUpdates = (event, context, callback) => {
   console.log(event);
-	var body = event.body,
-	    trackingStatus = body.tracking_status,
+  var body = event.body,
+      trackingStatus = body.tracking_status,
       trackingLocation = '';
 
   if (trackingStatus.location) {
@@ -15,12 +15,12 @@ module.exports.smsUpdates = (event, context, callback) => {
     trackingLocation = 'UNKNOWN';
   };
 
-	const response = {
-	    statusCode: 200,
-	    body: JSON.stringify({
-	      input: event,
-	    }),
-	  };
+  const response = {
+      statusCode: 200,
+      body: JSON.stringify({
+        input: event,
+      }),
+    };
 
   twilio.sendMessage({
     to: '+1-DESTINATION-NUMBER',
@@ -31,10 +31,10 @@ module.exports.smsUpdates = (event, context, callback) => {
   })
   .then(function(success) {
     console.log(success);
-		callback(null, response);
+    callback(null, response);
   })
   .catch(function(error) {
     console.log(error);
-		callback(null, response);
+    callback(null, response);
   })
 };

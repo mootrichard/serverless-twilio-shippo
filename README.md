@@ -52,8 +52,8 @@ First, lets parse the body of the message that Shippo has sent to us. We'll set 
 ```javascript
 module.exports.smsUpdates = (event, context, callback) => {
   console.log(event);
-	var body = event.body,
-	    trackingStatus = body.tracking_status,
+  var body = event.body,
+      trackingStatus = body.tracking_status,
       trackingLocation = '';
 
   if (trackingStatus.location) {
@@ -74,8 +74,8 @@ Here is what it looks like once we add sending our message:
 ```javascript
 module.exports.smsUpdates = (event, context, callback) => {
   console.log(event);
-	var body = event.body,
-	    trackingStatus = body.tracking_status,
+  var body = event.body,
+      trackingStatus = body.tracking_status,
       trackingLocation = '';
 
   if (trackingStatus.location) {
@@ -89,12 +89,12 @@ module.exports.smsUpdates = (event, context, callback) => {
 
   // This is for logging out success respponses back to Shippo
   // We don't really need to send a body back, but it won't harm anything
-	const response = {
-	    statusCode: 200,
-	    body: JSON.stringify({
-	      input: event,
-	    }),
-	  };
+  const response = {
+      statusCode: 200,
+      body: JSON.stringify({
+        input: event,
+      }),
+    };
 
   // You can find more info about Twilio's node client at
   //  https://www.twilio.com/docs/libraries/node
@@ -107,11 +107,11 @@ module.exports.smsUpdates = (event, context, callback) => {
   })
   .then(function(success) {
     console.log(success);
-		callback(null, response);
+    callback(null, response);
   })
   .catch(function(error) {
     console.log(error);
-		callback(null, response);
+    callback(null, response);
   })
 };
 ```
