@@ -1,6 +1,6 @@
 # Using AWS Lambda & API Gateway to Send Shipment Tracking Updates via SMS with Shippo & Twilio
 
-In this project, we’re going to create an AWS Lambda function that will trigger whenever Shippo pushes an update about a shipment to our AWS API Gateway Endpoint. Inside of the Lambda function, we’re going to call out to Twilio to send an SMS update with our tracking info provided by Shippo’s webhook.
+In this project, we’re going to recieve a notification from webhook about an a physical shipment in transit and trigger an SMS with the updated tracking information.  We'll build an AWS Lambda function that will trigger whenever Shippo pushes an update about a shipment to our AWS API Gateway Endpoint. Inside of the Lambda function, we’re going to call Twilio to send an SMS update with our tracking info provided by Shippo’s webhook.
 
 Now, I know what you’re thinking, this sounds pretty complicated and requires a lot of manual set up and repeated uploading of JavaScript files to AWS, but you’d be wrong. We’re going to use Serverless to do a lot of the heavy lifting on this for us, because I’m all about writing less code to do more.
 
@@ -14,15 +14,15 @@ Things you'll want before getting started with this tutorial:
 
 > You just need to plug in your API endpoint URL to the [webhooks](https://goshippo.com/docs/webhooks) area to have it work.
 
-You can get Serverless by just installing it globally on your machine using:
+You can get Serverless by installing it globally on your machine using:
 
 `npm install -g serverless`
 
-Serverless provides us a way to easily create a new service by just using their CLI like so (you can omit the path if you don't want it to create a directory for you):
+Serverless provides a way to easily create a new service by just using their CLI like so (you can omit the path if you don't want it to create a directory for you):
 
 `serverless create --template aws-nodejs --path twilio-shippo`
 
-Before you dig into creating your Lambda function, you'll likely want to setup a User in your AWS account for Serverless to have access for creating everything. They have a useful guide [here](https://serverless.com/framework/docs/providers/aws/guide/credentials/) that can walk you through getting your credentials setup.
+Before you dig into creating your Lambda function, you'll want to setup a User in your AWS account for Serverless to have access for creating everything. They have a useful guide [here](https://serverless.com/framework/docs/providers/aws/guide/credentials/) that can walk you through getting your credentials setup.
 
 Its as simply as adding a user `serverless-admin` with `AdministratorAccess` and using the credentials with the following command:
 
@@ -118,7 +118,7 @@ module.exports.smsUpdates = (event, context, callback) => {
 
 You'll also notice that we create a `response` object for sending a 200 response back, since Shippo expects a 200 response when there is a successful receipt of a webhook post.
 
-We're also using `console.log()` to let all of our messages log out to CloudWatch, which is really helpful in debugging or seeing the history of webhook events.
+We're also using `console.log()` to log all messages to CloudWatch, which is really helpful in debugging or seeing the history of webhook events.
 
 Now is a good time for us to tackle fixing up the serverless.yml file that will tell serverless how we want our lambda function configured and what AWS services it would use.
 
@@ -164,4 +164,4 @@ After pasting this into the URL field in Shippo, make sure that the dropdown und
 
 Now you can get SMS updates for all numbers that you post to Shippo automatically without having to provision any servers, and you only pay when you are receiving updates using Lambda and API Gateway with AWS. You could even take it a step further and include phone numbers for SMS updates in the `metadata` field when POSTing to Shippo and parse that out to dynamically send SMS updates to customers.
 
-You can find out most information about Shippo and how to use their shipping API to improve your shipping experience at [https://goshippo.com/docs](https://goshippo.com/docs).
+You can find more information about Shippo and how to use their [shipping API](https://goshippo.com/docs) to improve your shipping experience at [goshippo.com](https://goshippo.com).
