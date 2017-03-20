@@ -8,7 +8,8 @@ module.exports.smsUpdates = (event, context, callback) => {
 
   if (trackingStatus.location) {
     if (trackingStatus.location.city) {
-      trackingLocation = trackingStatus.location.city + ', ' + trackingStatus.location.state
+      trackingLocation = trackingStatus.location.city + ', '
+      + trackingStatus.location.state
     }
   } else {
     trackingLocation = 'UNKNOWN';
